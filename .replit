@@ -1,7 +1,7 @@
 compile = ["pdflatex", "-halt-on-error", "main.tex"]
 run = ["sh", "runner.sh"]
 
-hidden = ["index.html", "latexmkrc", "runner.sh", "nohup.out"]
+hidden = ["*.aux", "*.log", "index.html", "runner.sh", "nohup.out"]
 
 [languages.latex]
 pattern = "**/*.tex"
@@ -10,7 +10,7 @@ pattern = "**/*.tex"
 start = "texlab"
 
 [nix]
-channel = "stable-25_05"
+channel = "stable-21_11"
 
 [agent]
 expertMode = true
@@ -18,29 +18,3 @@ expertMode = true
 [[ports]]
 localPort = 8000
 externalPort = 80
-
-[workflows]
-
-[[workflows.workflow]]
-name = "Bash"
-mode = "sequential"
-
-[[workflows.workflow.tasks]]
-task = "shell.exec"
-args = "bash"
-
-[[workflows.workflow]]
-name = "Generate PDF (watch mode)"
-mode = "sequential"
-
-[[workflows.workflow.tasks]]
-task = "shell.exec"
-args = "latexmk -pvc -pdf main.tex"
-
-[[workflows.workflow]]
-name = "Preview PDF"
-mode = "sequential"
-
-[[workflows.workflow.tasks]]
-task = "shell.exec"
-args = "runner.sh"
